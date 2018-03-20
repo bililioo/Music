@@ -5,6 +5,7 @@ import asyncio, os, inspect, logging, functools
 from urllib import parse
 from aiohttp import web
 from apis import APIError
+import aiohttp_cors
 
 def get(path):
     '''
@@ -150,7 +151,14 @@ def add_route(app, fn):
     if not asyncio.iscoroutinefunction(fn) and not inspect.isgeneratorfunction(fn):
         fn = asyncio.coroutine(fn)
     logging.info('add route %s %s => %s(%s)' % (method, path, fn.__name__, ', '.join(inspect.signature(fn).parameters.keys())))
-    app.router.add_route(method, path, RequestHandler(app, fn))
+
+    route = app.router.add_route(method, path, RequestHandler(app, fn))
+    cors = aiohttp_cors.setup(app)
+    cors.add(route, {
+            "http://10.1.52.86": aiohttp_cors.ResourceOptions(
+                allow_credentials=True,
+            )
+        })
 
 def add_routes(app, module_name):
     n = module_name.rfind('.')

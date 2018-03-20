@@ -12,8 +12,29 @@
 	<script src="https://cdn.bootcss.com/uikit/3.0.0-beta.40/js/uikit.min.js"></script>
 
 	<title>音乐下载</title>
+
 </head>
 <body>
+	<!-- <div id="myDiv"><h2>使用 AJAX 修改该文本内容</h2></div>
+	<button type="button" onclick="loadList()">修改内容</button> -->
+	<script>
+		$(function(){
+			$.ajax({
+				type:"GET",
+				url:"api/songs",
+				dataType:"json",
+
+				success: function(data) {
+					var str="<ul>";
+					$.each(data.songs, function(i,n){
+						str+="<li>" + n.title + "</li>";
+					});
+					str += "</ul>";
+					$("div").append(str);
+				}
+			});
+		})
+	</script>
 	<div class="uk-overflow-container">
 		<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
 			<thead>

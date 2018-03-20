@@ -9,7 +9,14 @@ from coroweb import get, post
 from config import configs
 from aiohttp import web
 
-@get('/songs')
-async def songs():
+@get('/api/songs')
+async def songs_api():
     songs = await Song.findAll(orderby='id desc')
-    return songs
+    return {'songs': songs}
+
+
+@get('/songs')
+def songs():
+    return {
+        '__template__': 'songs.html'
+    }

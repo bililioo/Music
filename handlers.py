@@ -20,3 +20,11 @@ def songs():
     return {
         '__template__': 'songs.html'
     }
+    # return '/templates/songs.html'
+
+@get('/songs1')
+def songs1():
+    return {
+        '__template__': 'songs1.html'
+    }
+    

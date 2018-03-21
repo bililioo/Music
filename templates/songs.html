@@ -34,7 +34,7 @@
 					<td>{{ (song.size | number : 2) + 'M' }}</td>
 					<td>{{ song.date }}</td>
 					<td>
-						<a href="http://www.w3school.com.cn">下载</a>
+						<button type="button" ng-click="download(song.path)">下载</button>
 					</td>
 				</tr>
 			</tbody>
@@ -48,6 +48,10 @@
 			.then(function(result) {
 				$scope.songs = result.data.songs;
 			});
+
+			$scope.download = function(path) {
+				return path;
+			};
 		});
 	</script>
 </body>

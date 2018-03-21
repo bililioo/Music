@@ -10,34 +10,24 @@ from config import configs
 from aiohttp import web
 import aiohttp
 
-@get('/api/songs')
-async def songs_api():
-    songs = await Song.findAll(orderby='id desc')
-    return {'songs': songs}
+# @get('/api/songs/')
+# async def songs_api():
+#     songs = await Song.findAll(orderby='id desc')
+#     return {'songs': songs}
 
-@post('/api/songs')
-def download_song(path):
-    # if not title:
-    #     raise APIValueError('title', 'Invalid title.')
-    if not path:
-        raise APIValueError('path', 'Invalid path.')
-    
-    response = aiohttp.web.StreamResponse()
-    fn = open(path)
-    response.body = fn
-    # response.content_type = 'application/'
-    return response
+@get('/api/{title}')
+async def download(request, *, title):
 
+    if title == 'songs':
+        songs = await Song.findAll(orderby='id desc')
+        return {'songs': songs}
 
-@get('/api/tempdownload')
-async def download():
-    path = '/Users/kkucars/Music/虾米音乐/阿细-追光者 (粤语).mp3'
-
-    # response = aiohttp.web.StreamResponse()
+    path = '/Users/chenbin/Music/虾米音乐/' + title
+    # 设置response
     response = aiohttp.web.StreamResponse(headers={'Content-Disposition': 'Attachment'})
-    # response.prepare()
-    with open(path, 'r') as data:
-        await response.write(data)
+    await response.prepare(request)
+    with open(path, 'rb') as data:
+        await response.write(data.read())
     return response
 
 @get('/songs')

@@ -34,7 +34,7 @@
 					<td>{{ (song.size | number : 2) + 'M' }}</td>
 					<td>{{ song.date }}</td>
 					<td>
-						<button type="button" ng-click="download(song.path)">下载</button>
+						<a href="/api/{{ song.title }}">下载</a>
 					</td>
 				</tr>
 			</tbody>
@@ -49,20 +49,21 @@
 				$scope.songs = result.data.songs;
 			});
 
-			$scope.download = function(path) {
-				var request = {
-					method: 'POST',
-					url: '/api/songs',
-					headers: {
-						'Content-Type':'application/json'
-					},
-					data: {'path': path}
-				}
-				$http(request)
-				.then(function(result) {
+			// 下载音乐POST请求
+			// $scope.download = function(title) {
+			// 	var request = {
+			// 		method: 'POST',
+			// 		url: '/api/songs',
+			// 		headers: {
+			// 			'Content-Type':'application/json'
+			// 		},
+			// 		data: {'path': path}
+			// 	}
+			// 	$http(request)
+			// 	.then(function(result) {
 					
-				})
-			};
+			// 	})
+			// };
 		});
 	</script>
 </body>

@@ -50,7 +50,18 @@
 			});
 
 			$scope.download = function(path) {
-				return path;
+				var request = {
+					method: 'POST',
+					url: '/api/songs',
+					headers: {
+						'Content-Type':'application/json'
+					},
+					data: {'path': path}
+				}
+				$http(request)
+				.then(function(result) {
+					
+				})
 			};
 		});
 	</script>

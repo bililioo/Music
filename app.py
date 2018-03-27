@@ -8,6 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 from coroweb import add_routes, add_static
 from aiohttp import web
 import aiohttp
+from config import configs
 
 def init_jinja2(app, **kw):
     logging.info('init jinja2...')
@@ -70,16 +71,18 @@ async def songs(request):
     return response
 
 async def init(loop):
-    await orm.create_pool(loop, host='127.0.0.1', user='root', password='990978664', db='music')
+
+    logging.info(configs)
+
+    # await orm.create_pool(loop, host='127.0.0.1', user='root', password='990978664', db='music')
+    await orm.create_pool(loop, **configs.db)
     app = web.Application(loop=loop, middlewares=[logger_factory, response_factory])
 
     init_jinja2(app)
     add_routes(app, 'handlers')
     add_static(app)
-    srv = await loop.create_server(app.make_handler(), '10.1.52.163', 9000)
-    logging.info('server started at http://10.1.52.163...')
-    # logging.info('server started at http://192.168.1.103...')
-    # logging.info('server started at http://10.1.52.86...')
+    srv = await loop.create_server(app.make_handler(), configs.apis.get('host', 'localhost'), configs.apis['port'])
+    logging.info('server started at %s...' % configs.apis['host'])
     return srv
 
 loop = asyncio.get_event_loop()

@@ -10,17 +10,13 @@ from config import configs
 from aiohttp import web
 import aiohttp
 
-# @get('/api/songs/')
-# async def songs_api():
-#     songs = await Song.findAll(orderby='id desc')
-#     return {'songs': songs}
+@get('/api/songs')
+async def songs_api(request):
+    songs = await Song.findAll(orderby='id desc')
+    return {'songs': songs}
 
-@get('/api/{title}')
+@get('/api/downloads/{title}')
 async def download(request, *, title):
-
-    if title == 'songs':
-        songs = await Song.findAll(orderby='id desc')
-        return {'songs': songs}
 
     path = '/Users/chenbin/Music/虾米音乐/' + title
     # 设置response
@@ -35,5 +31,3 @@ def songs():
     return {
         '__template__': 'songs.html'
     }
-
-    

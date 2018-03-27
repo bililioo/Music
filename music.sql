@@ -1,7 +1,7 @@
 -- schema.sql
-
+-- 如果存在先删除库
 drop database if exists music;
-
+-- 建库
 create database music;
 
 use music;

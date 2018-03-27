@@ -34,7 +34,7 @@
 					<td>{{ (song.size | number : 2) + 'M' }}</td>
 					<td>{{ song.date }}</td>
 					<td>
-						<a href="/api/{{ song.title }}">下载</a>
+						<a href="/api/downloads/{{ song.title }}">下载</a>
 					</td>
 				</tr>
 			</tbody>

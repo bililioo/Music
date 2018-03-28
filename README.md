@@ -25,4 +25,7 @@ $ pip3 install aiohtt_cors
 - 执行`music_source.py`将歌曲信息插入`music`表中。
 - 执行`app.py`
 
+### 已知问题
+1. 不支持自动更新数据库数据；
+2. 下载接口不支持断点续传，未能正确展示下载信息。
 
